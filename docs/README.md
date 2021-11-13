@@ -1,10 +1,20 @@
 <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
 <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+    MathJax.Hub.Config({ 
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        }, 
+        messageStyle: "none" 
+    });
 </script>
     
-## Title
-
-Something
-
-{% include_relative src/SomeMath.md %}
+{% include_relative src/00_Introduction.md %}
+{% include_relative src/20_SystemOfEquations.md %}
+{% include_relative src/21_KFDesign.md %}
+{% include_relative src/22_Meaning.md %}
+{% include_relative src/30_Simplification.md %}
+{% include_relative src/50_Simulation.md %}
+{% include_relative src/60_Experiment.md %}
+{% include_relative src/90_Conclusion.md %}
+{% include_relative src/99_References.md %}
