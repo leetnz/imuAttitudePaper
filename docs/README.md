@@ -7,4 +7,4 @@
 
 Something
 
-{% include_relative ../src/SomeMath.md %}
+{% include_relative src/SomeMath.md %}
