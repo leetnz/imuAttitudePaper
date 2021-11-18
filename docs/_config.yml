@@ -3,8 +3,9 @@ theme: jekyll-theme-slate
 title: "IMU Attitude Estimation"
 description: "Attitude estimation using gyroscope and accelerometer inputs"
 
+show_downloads: true
+
 github:
   is_project_page: false
-  show_downloads: true
-  
+  pdf_url: "https://github.com/leetnz/imuAttitudePaper/releases/download/v0.0.0-draft/README.pdf"
 
