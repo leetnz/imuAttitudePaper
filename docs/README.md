@@ -1,14 +1,6 @@
-<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ 
-        tex2jax: {
-            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-        }, 
-        messageStyle: "none" 
-    });
-</script>
-    
+{% include scripts.html %}
+
+
 {% include_relative src/00_Introduction.md %}
 {% include_relative src/20_SystemOfEquations.md %}
 {% include_relative src/21_KFDesign.md %}
