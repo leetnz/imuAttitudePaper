@@ -116,20 +116,20 @@ $$
     \ddot{z}^{noise}_k \\
 \end{bmatrix} +
 \begin{bmatrix}
-    \ddot{y}_{offset} \\
-    \ddot{z}_{offset} \\
+    \ddot{y}^{offset} \\
+    \ddot{z}^{offset} \\
 \end{bmatrix}
 $$
 
 Where:
 
 * $\ddot{y}^{noise}_k$ and $\ddot{z}^{noise}_k$ vary every update
-* $\ddot{y}_{offset}$ and $\ddot{z}_{offset}$ are treated as constant measurement errors
+* $\ddot{y}^{offset}$ and $\ddot{z}^{offset}$ are treated as constant measurement errors
 
 #### Gyroscope
 
 Rate measurements are independent of orientation so we only add noise and offset:
 
 $$
-\dot{\theta}^{gyro}_k = \dot{\theta}_k + \dot{\theta}^{noise}_k + \dot{\theta}_{offset}
+\dot{\theta}^{gyro}_k = \dot{\theta}_k + \dot{\theta}^{noise}_k + \dot{\theta}^{offset}
 $$

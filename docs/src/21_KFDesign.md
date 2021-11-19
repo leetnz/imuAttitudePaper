@@ -28,7 +28,7 @@ $$
 Where:
 
 * $\underset{p\times 1}{\hat{z}}$ are the measured observations
-* $\underset{p\times n}{C}$ describes how the state $$ x $$ maps to the observation
+* $\underset{p\times n}{C}$ describes how the state $\hat{x}$ maps to the observation
 * $\underset{p\times m}{D}$ represents the change in observation due to inputs
 
 *note: A, B, u, and state x are not the same as in the system of equations. In this case we are dealing with a digital estimator, whereas those equations are for a continuous system.*
@@ -76,32 +76,32 @@ We would like a generic estimator which only uses IMU meaasurements - this means
 The state we care about is:
 
 $$
-    \hat{x} = \begin{bmatrix}
-        \theta \\
-        \dot{\theta} \\
-    \end{bmatrix}
+\hat{x} = \begin{bmatrix}
+    \theta \\
+    \dot{\theta} \\
+\end{bmatrix}
 $$
 
 Firstly, for state prediction, we end up using the gyroscope measurements for the inputs $u$:
 
 $$
-    \begin{bmatrix}
-        \bar{\theta}_k \\
-        \bar{\dot{\theta}}_k \\
-    \end{bmatrix} = 
-    \begin{bmatrix}
-        1 & \frac{\Delta t_k}{2} \\
-        0 & 0 \\
-    \end{bmatrix}
-    \begin{bmatrix}
-        \theta_{k-1} \\
-        \dot{\theta}_{k-1} \\
-    \end{bmatrix} + 
-    \begin{bmatrix}
-        \frac{\Delta t_k}{2} \\
-        1 \\
-    \end{bmatrix}
-        \dot{\theta}^{gyro}_{k}
+\begin{bmatrix}
+    \bar{\theta}_k \\
+    \bar{\dot{\theta}}_k \\
+\end{bmatrix} = 
+\begin{bmatrix}
+    1 & \frac{\Delta t_k}{2} \\
+    0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+    \theta_{k-1} \\
+    \dot{\theta}_{k-1} \\
+\end{bmatrix} + 
+\begin{bmatrix}
+    \frac{\Delta t_k}{2} \\
+    1 \\
+\end{bmatrix}
+    \dot{\theta}^{gyro}_{k}
 $$
 
 This is equivalent to the gyroscope-only estimator presented in the introduction.
@@ -113,23 +113,23 @@ $$
 $$
 
 $$
-    \begin{bmatrix}
-        \theta^z_k \\
-        \dot{\theta}^z_k \\
-    \end{bmatrix} = 
-    \begin{bmatrix}
-        1 & 0 \\
-        0 & 0 \\
-    \end{bmatrix}
-    \begin{bmatrix}
-        \theta_{k}^{accel} \\
-        0
-    \end{bmatrix} +
-    \begin{bmatrix}
-        0 \\
-        1 \\
-    \end{bmatrix}
-    \dot{\theta}^{gyro}_{k}
+\begin{bmatrix}
+    \theta^z_k \\
+    \dot{\theta}^z_k \\
+\end{bmatrix} = 
+\begin{bmatrix}
+    1 & 0 \\
+    0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+    \theta_{k}^{accel} \\
+    0
+\end{bmatrix} +
+\begin{bmatrix}
+    0 \\
+    1 \\
+\end{bmatrix}
+\dot{\theta}^{gyro}_{k}
 $$
 
 We will then need to tune matrices $Q$ and $R$ to compute reasonable Kalman gains for various measurements.
