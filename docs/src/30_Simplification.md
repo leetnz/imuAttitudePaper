@@ -1,1 +1,121 @@
-## Simplifying the Trust Function
+### Simplifying the estimator
+
+There are two aspects of the Kalman filter in it's default form which aren't particularly useful for our estimator.
+
+
+#### Simplification 1: Covariance Matrix
+
+The covariance matrix $\Sigma$ doesn't help us much. The problems are:
+* If we have a bad accelerometer reading - we can't use it, so tracking covariance isn't ideal
+* After a period of bad accelerometer readings, we don't want our covariance to blow up to a point where the next "valid" accelerometer reading is trusted in it's entirety. This is because it is possible to get invalid accelerometer readings which look valid, so they need to be filtered adequately.
+
+#### Simplification 2: We only care about $\theta$
+
+The observation step doesn't pay attention to $\dot{\theta}$.
+
+#### Simplification 3: Replacing the Kalman gain with a trust function
+
+The two simplifications above have a direct implication on computing the Kalman gain.
+
+If we allow $Q$ to equal, (note, we don't estimate noise on $\dot{\theta}$ since it is not involved in observations):
+
+$$
+\begin{bmatrix}
+    q_k & 0 \\
+    0 & 0\\
+\end{bmatrix}
+$$
+
+Then the Kalman gain computation
+
+$$
+K_{k} = \bar{\Sigma}_{k}C^T(C\bar{\Sigma}_{k}C^T + Q)^{-1}
+$$
+
+Simplifies to:
+
+$$
+\begin{split}
+K_{k} &=
+    \begin{bmatrix}
+        r^{11}_k & r^{12}_k \\
+        r^{21}_k & r^{22}_k \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 0 \\
+        0 & 0 \\
+    \end{bmatrix}
+    \left(
+        \begin{bmatrix}
+            1 & 0 \\
+            0 & 0 \\
+        \end{bmatrix}
+        \begin{bmatrix}
+            r^{11}_k & r^{12}_k \\
+            r^{21}_k & r^{22}_k \\
+        \end{bmatrix}
+        \begin{bmatrix}
+            1 & 0 \\
+            0 & 0 \\
+        \end{bmatrix} + 
+        \begin{bmatrix}
+            q_k & 0 \\
+            0 & 0\\
+        \end{bmatrix}
+    \right)^{-1}
+    \\
+    &=
+    \begin{bmatrix}
+        \frac{r^{11}_k}{r^{11}_k + q_k} & 0 \\
+        0 & 0\\
+    \end{bmatrix}
+\end{split}
+$$
+
+Given that the covariance of $R$ is constant, but $q_k$ depends on how much we trust the measured acceleration, a more meaningful equation discards $R$'s contribution as meaningless scaling and instead focusses on a trust function:
+
+$$
+K_{k} =
+\begin{bmatrix}
+    f^{trust}\left(\ddot{z}^{accel}_k, \ddot{y}^{accel}_k\right) & 0 \\
+    0 & 0\\
+\end{bmatrix}
+$$
+
+Our final estimate of $\mu_k$ becomes a lot simpler too: 
+
+$$
+\begin{split}
+\hat{\mu}_{k} &= \bar{\hat{\mu}}_{k} + K_{k}(z_k - C\bar{\hat{\mu}}_{k}) \\
+              &= 
+    \begin{bmatrix}
+        \bar{\theta}_k \\
+        \bar{\dot{\theta}}_k \\
+    \end{bmatrix} +
+    \begin{bmatrix}
+        f^{trust}\left(\ddot{z}^{accel}_k, \ddot{y}^{accel}_k\right) & 0 \\
+        0 & 0\\
+    \end{bmatrix} \left(
+        \begin{bmatrix}
+            \theta^z_k \\
+            \bar{\dot{\theta}}_k \\
+        \end{bmatrix} - 
+        \begin{bmatrix}
+            \bar{\theta_k} \\
+            \bar{\dot{\theta}}_k \\
+        \end{bmatrix}
+    \right) \\
+              &= 
+    \begin{bmatrix}
+        \bar{\theta}_k  + f^{trust}\left(\ddot{z}^{accel}_k, \ddot{y}^{accel}_k\right) \times \left(\theta^z_k - \bar{\theta_k}\right) \\
+        \bar{\dot{\theta}}_k \\
+    \end{bmatrix}
+\end{split}
+$$
+
+In this form, the trust function simply outputs a value in range $[0, 1]$ which determines how much we trust our observations. When it is $0$ we only trust the system equations (gyroscope estimator), when it is $1$ we only trust the observations (accelerometer).
+
+
+
+
+

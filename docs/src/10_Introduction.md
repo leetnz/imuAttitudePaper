@@ -4,31 +4,34 @@ This paper outlines an attitude estimator using gyroscope and accelerometer meas
 
 ### An estimator in the hand is worth two in the bush
 
-A digital gyroscope-only estimator using trapezoidal integration on step $$N$$ is given by:
+A digital gyroscope-only estimator using trapezoidal integration on step $K$ is given by:
 
 $$
-\bar{\theta}_{N}^{gyro} = {\sum_{n=0}^N} \frac{\dot{\theta}_n + \dot{\theta}_{n-1}}{2}\Delta t_n
+\bar{\theta}_{K}^{gyro} = {\sum_{k=0}^K} \frac{\dot{\theta}_k + \dot{\theta}_{k-1}}{2}\Delta t_k
 $$
 
 Where:
-* $$\bar{\theta}_{N}^{gyro}$$ is the $$N^{th}$$ estimated angle
-* $$\dot{\theta}_n$$ is the gyroscope measurement on the $$n^{th}$$ sample
-* $$\Delta t_n$$ is the change in time since the previous sample
+
+* $\bar{\theta}_{K}^{gyro}$ is the $K^{th}$ estimated angle
+* $\dot{\theta}_k$ is the gyroscope measurement on the $k^{th}$ sample
+* $\Delta t_k$ is the change in time since the previous sample
 
 Integration causes the gyroscope estimator to drift due to:
-* Offets and misalignment in $$\dot{\theta}$$ measurements
+
+* Offets and misalignment in $\dot{\theta}$ measurements
 * Dynamics not measured between samples
 
-A digital accelerometer-only estimator using triginometry on step $$N$$ is given by:
+A digital accelerometer-only estimator using triginometry on step $K$ is given by:
 
 $$
-\bar{\theta}_{N}^{accel} = \tan^{-1}\left(\frac{\ddot{z}_N}{\ddot{y}_N}\right)
+\bar{\theta}_{K}^{accel} = \tan^{-1}\left(\frac{\ddot{z}_K}{\ddot{y}_K}\right)
 $$
 
 Where:
-* $$\bar{\theta}_{N}^{accel}$$ is the $$N^{th}$$ estimated angle
-* $$\ddot{z}_N$$ and $$\ddot{y}_N$$ are the $$N^{th}$$ acceleration measurements
-  * This assumes $$\theta$$ is the roll angle in the x-axis
+
+* $\bar{\theta}_{K}^{accel}$ is the $K^{th}$ estimated angle
+* $\ddot{z}_K$ and $\ddot{y}_K$ are the $K^{th}$ acceleration measurements
+  * This assumes $\theta$ is the roll angle in the x-axis
 
 The accelerometer estimator assumes the accelerometer is only measuring gravity; typically, this only holds when the measured object is stationary.
 

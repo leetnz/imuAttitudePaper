@@ -5,3 +5,5 @@ pdf/build
 docs/_site/
 *.DS_store
 .jekyll-metadata
+
+node_modules
