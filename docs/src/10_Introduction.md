@@ -39,4 +39,4 @@ Both estimators have a tendency to run off under various conditions. However, th
 
 ### Combining sensors
 
-In the following sections, a Kalman filter is designed to fuse the accelerometer and gyroscope estimates. Some drawbacks of Kalman filters are that they abstract meaning from tuned gains and can be computationally more intense than what is feasable on some bare-metal embedded systems. An alternative apporach is taken using a first-order IIR filter with a dynamic gain computed using a trust function. This approach is equivalent to a Kalman filter, but is more intuitive to tune and runs quickly on resource limited embedded systems.
+In the following sections, a Kalman filter is designed to fuse the accelerometer and gyroscope estimates. Some drawbacks of Kalman filters are that they abstract meaning from tuned gains and can be computationally more intense than what is feasable on some bare-metal embedded systems. An alternative apporach is taken using a complementary filter with a dynamic gain computed using a trust function. This approach is equivalent to a Kalman filter, but is more intuitive to tune and runs quickly on resource limited embedded systems.

@@ -1,11 +1,15 @@
 ### Simplifying the estimator
 
-There are two aspects of the Kalman filter in it's default form which aren't particularly useful for our estimator.
+There are two aspects of the Kalman filter in it's default form which aren't particularly useful for our estimator:
+
+* The covariance matrix
+* Including $\dot{\theta}$ in our observations
 
 
 #### Simplification 1: Covariance Matrix
 
 The covariance matrix $\Sigma$ doesn't help us much. The problems are:
+
 * If we have a bad accelerometer reading - we can't use it, so tracking covariance isn't ideal
 * After a period of bad accelerometer readings, we don't want our covariance to blow up to a point where the next "valid" accelerometer reading is trusted in it's entirety. This is because it is possible to get invalid accelerometer readings which look valid, so they need to be filtered adequately.
 
@@ -72,12 +76,21 @@ K_{k} &=
 \end{split}
 $$
 
-Given that the covariance of $R$ is constant, but $q_k$ depends on how much we trust the measured acceleration, a more meaningful equation discards $R$'s contribution as meaningless scaling and instead focusses on a trust function:
+Given that the covariance of $R$ is constant, but $q_k$ depends on how much we trust the measured acceleration, a more meaningful equation discards $R$'s contribution as meaningless scaling and instead focusses on a trust function, where $\hat{a}^{accel}_k$ is the accelerometer's measurements on step $k$:
+
+$$
+\hat{a}^{accel}_k = 
+    \begin{bmatrix}
+        \ddot{x}^{accel}_k \\
+        \ddot{y}^{accel}_k \\
+        \ddot{z}^{accel}_k \\
+    \end{bmatrix}
+$$
 
 $$
 K_{k} =
 \begin{bmatrix}
-    f^{trust}\left(\ddot{z}^{accel}_k, \ddot{y}^{accel}_k\right) & 0 \\
+    f^{trust}(\hat{a}^{accel}_k) & 0 \\
     0 & 0\\
 \end{bmatrix}
 $$
@@ -90,31 +103,37 @@ $$
               &= 
     \begin{bmatrix}
         \bar{\theta}_k \\
-        \bar{\dot{\theta}}_k \\
+        \dot{\theta}^{gyro}_k \\
     \end{bmatrix} +
     \begin{bmatrix}
-        f^{trust}\left(\ddot{z}^{accel}_k, \ddot{y}^{accel}_k\right) & 0 \\
+        f^{trust}(\hat{a}^{accel}_k) & 0 \\
         0 & 0\\
     \end{bmatrix} \left(
         \begin{bmatrix}
             \theta^z_k \\
-            \bar{\dot{\theta}}_k \\
+            \dot{\theta}^{gyro}_k \\
         \end{bmatrix} - 
         \begin{bmatrix}
             \bar{\theta_k} \\
-            \bar{\dot{\theta}}_k \\
+            \dot{\theta}^{gyro}_k \\
         \end{bmatrix}
     \right) \\
-              &= 
+        &= 
     \begin{bmatrix}
-        \bar{\theta}_k  + f^{trust}\left(\ddot{z}^{accel}_k, \ddot{y}^{accel}_k\right) \times \left(\theta^z_k - \bar{\theta_k}\right) \\
-        \bar{\dot{\theta}}_k \\
+        \bar{\theta}_k  + f^{trust}(\hat{a}^{accel}_k) \times \left(\theta^z_k - \bar{\theta}_k\right) \\
+        \dot{\theta}^{gyro}_k \\
+    \end{bmatrix} \\
+        &= 
+    \begin{bmatrix}
+        \bar{\theta}^{gyro}_k  + f^{trust}(\hat{a}^{accel}_k) \times \left(\bar{\theta}^{accel}_k - \bar{\theta}^{gyro}_k\right) \\
+        \dot{\theta}^{gyro}_k \\
     \end{bmatrix}
 \end{split}
 $$
 
 In this form, the trust function simply outputs a value in range $[0, 1]$ which determines how much we trust our observations. When it is $0$ we only trust the system equations (gyroscope estimator), when it is $1$ we only trust the observations (accelerometer).
 
+This is also known as a complimentary filter with a dynamic gain. The gyroscopic measurements represent the high-pass elements (because they include feedback), and the accelerometer measurements represent the low-pass elements.
 
 
 
