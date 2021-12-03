@@ -7,11 +7,12 @@ This paper outlines an attitude estimator using gyroscope and accelerometer meas
 A digital gyroscope-only estimator using trapezoidal integration on step $K$ is given by:
 
 $$
-\bar{\theta}_{K}^{gyro} = {\sum_{k=0}^K} \frac{\dot{\theta}_k + \dot{\theta}_{k-1}}{2}\Delta t_k
+\bar{\theta}_{K}^{gyro} = \theta_{0} + {\sum_{k=1}^K} \frac{\dot{\theta}_k + \dot{\theta}_{k-1}}{2}\Delta t_k
 $$
 
 Where:
 
+* $\theta_{0}$ is the initial angle
 * $\bar{\theta}_{K}^{gyro}$ is the $K^{th}$ estimated angle
 * $\dot{\theta}_k$ is the gyroscope measurement on the $k^{th}$ sample
 * $\Delta t_k$ is the change in time since the previous sample
@@ -24,7 +25,7 @@ Integration causes the gyroscope estimator to drift due to:
 A digital accelerometer-only estimator using triginometry on step $K$ is given by:
 
 $$
-\bar{\theta}_{K}^{accel} = \tan^{-1}\left(\frac{\ddot{z}_K}{\ddot{y}_K}\right)
+\bar{\theta}_{K}^{accel} = \tan^{-1}\left(\frac{\ddot{y}_K}{\ddot{z}_K}\right)
 $$
 
 Where:

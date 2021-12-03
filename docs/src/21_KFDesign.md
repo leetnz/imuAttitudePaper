@@ -109,7 +109,7 @@ This is equivalent to the gyroscope-only estimator presented in the introduction
 Next, the observation is handled using accelerometer measurements:
 
 $$
-\bar{\theta}_{K}^{accel} = \tan^{-1}\left(\frac{\ddot{z}^{accel}_k}{\ddot{y}^{accel}_k}\right)
+\bar{\theta}_{K}^{accel} = \tan^{-1}\left(\frac{\ddot{y}^{accel}_k}{\ddot{z}^{accel}_k}\right)
 $$
 
 $$
