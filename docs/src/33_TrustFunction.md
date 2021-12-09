@@ -31,7 +31,7 @@ With:
 
 We get:
 
-![Linear trust function](src/images/40_trustFunction.png)
+![Linear trust function](src/images/33_trustFunction.png)
 
 #### Optimization for embedded systems
 
@@ -75,7 +75,7 @@ $$
 
 The resulting approximation carries up to 10% error from our ideal trust function. In practice this doesn't impact the behavior of the complimentary filter in any meaningful way:
 
-![Approximating the trust function](src/images/40_optimized.png)
+![Approximating the trust function](src/images/33_optimized.png)
 
 
 

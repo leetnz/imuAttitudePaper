@@ -13,7 +13,7 @@ The embedded implementation on Bittle has the following characteristics:
   * an accelerometer range of ±1g
   * a gyroscope range of ±1000°/s
 
-Finally, the Bittle MPU6050's sensor frame is not aligned with the Bittle's body frame. The transform between the sensor frame and body frame is a 180° rotation about the z-axis.
+The Bittle MPU6050's sensor frame is not aligned with the Bittle's body frame. The transform between the sensor frame and body frame is a 180° rotation about the z-axis.
 
 ### Embedded algorithm
 

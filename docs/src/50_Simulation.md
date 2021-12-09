@@ -58,15 +58,51 @@ $$
 
 The plot below shows IMU simulated accelerometer data across a number of monte-carlo simulations. The estimator is judged and improved based on its statistical performance against hundreds of monte-carlo simulations.
 
-![IMU accelerometer with offset and noise](src/images/montecarloIMUAccY.gif)
+![IMU accelerometer with offset and noise](src/images/50_monteCarloIMUAccY.gif)
 
 ### Estimator
 
-Outline the compared estimators and what gains are used
+Three estimators were compared:
+* Accelerometer only estimator
+* Gyro only estimator
+* Complimentry trust estimator
 
-Outline how we handle wrap around (shorted radian path + wrapPi)
+#### Handling angular wrap-around
 
-Show the comparative results of a single simulation
+A practical implementation of the complimentry trust estimator needs to handle angle wrap-around. The important parts are:
+* When finding the difference between two angles, a shortest radian path algorithm is used
+  * This algorithm ensures that the magnitude of angles when computing a difference is never greater than pi
+* All estimates of $\theta$ are wrapped into the range $[-\pi, +\pi]$
 
-Show the comparative results of a monte carlo vs. Accel or Gyro on thier own (error, mean squared error etc)
+#### Results - Single Simulation
 
+A single run of the simulated system is shown below.
+
+![Estimator comparison single simulation](src/images/50_estimatorsSingle.png)
+
+The following observations are important:
+* The accelerometer-only estimator becomes poor when there are dynamics in the system
+* The gyroscope estimator drifts and becomes less accurate the longer the simulation runs
+* The complimentry trust estimator:
+  * rejects the accelerometer estimates once the dynamics become too large
+  * corrects for gyroscope drift once the accelerometer estimates are trusted again
+
+#### Results - Monte Carlo
+
+To compare performance between estimators, the simulations were run 100 times with the following results:
+
+![Monte Carlo Accelerometer-Only Estimator](src/images/50_monteCarloAccel.png)
+
+The accelerometer-only estimator is non-recursive, so noise and offsets do not aggregate over time.
+
+![Monte Carlo Gyroscope-Only Estimator](src/images/50_monteCarloGyro.png)
+
+The gyroscope-only estimator is recursive, noise and offsets cause estimates to drift relative to the inaccuracies of the sensor.
+
+![Monte Carlo Complimentry Trust Estimator](src/images/50_monteCarloCTE.png)
+
+The complimentry trust estimator combines properties of both estimators - it is prone to drift during dynamics, but will reconverge once acclerometer measurements become accurate again.
+
+![Monte Carlo Estimator Mean Square Error](src/images/50_monteCarloMSE.png)
+
+The mean-squared error across simulations is indicative of the general performance of the estimators. The result is a little misleading since gyro errors get larger the longer the simulation runs, and the other two estimator's errors will decrease assuming there are no more inputs to the system.
