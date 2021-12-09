@@ -17,7 +17,40 @@ The Bittle MPU6050's sensor frame is not aligned with the Bittle's body frame. T
 
 ### Embedded algorithm
 
-* Outline the embedded algorithm including alignment adjustments
+The core of the Embedded algorithm is available on [https://github.com/leetnz/Bittleet/](https://github.com/leetnz/Bittleet/blob/main/src/state/Attitude.cpp).
+
+Bittle samples three accelerometers values and three gyroscope values through I2C at 400kHz. Each value is represented by a 16-bit integer count. 
+
+A small transform is made to IMU measurements to move the x and y axes from the sensor frame into the body frame:
+* $\dot{\phi}^{gyro}_k = -\dot{\phi}^{imu}_k$
+* $\dot{\theta}^{gyro}_k = -\dot{\theta}^{imu}_k$
+* $\ddot{x}^{accel}_k = -\ddot{x}^{imu}_k$
+* $\ddot{y}^{accel}_k = -\ddot{y}^{imu}_k$
+
+Where:
+* $\dot{\phi}$ represents the rate on the x axis
+* $\dot{\theta}$ represents the rate on the y axis
+
+Now that we want estimates of $\theta$, we define the accelerometer estimator used for $y$:
+
+$$
+\begin{split}
+    \bar{\theta}^{accel}_{k} &= \tan^{-1}\left(\frac{-\ddot{x}^{accel}_K}{\ddot{z}^{accel}_K}\right) \\
+\end{split}
+$$
+
+When computing the accelrometer estimates, we do not convert the raw values into accelerations or units of $g$. Instead we represent $1g$ in units of counts. Trigonometry works in any unit, so this is a slight optimization to avoid floating point arithmetic which the ATMega328P is not suited for.
+
+The trust function is computed once using the linearized trust function which reduces computational load by avoiding a square root.
+
+The overall breakdown of timings is shown below:
+
+| Function | Sample IMU | Estimation |
+|----------|------------|------------|
+| microseconds | TODO | TODO |
+
+This allows a maximum sample rate of TODO Hz. 
+Bittle firmware is also responsible for actuating servos and taking user commands; so a compromise of 100Hz sampling is used to balance these requirements.
 
 ### Experimental setup
 
