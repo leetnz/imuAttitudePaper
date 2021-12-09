@@ -5,11 +5,11 @@ The code in this simulation is written in Matlab and can be downloaded from [git
 The simulation operates in a 2D plane where:
 * the plane axes are $y$ and $z$
 * the axis orthogonal to the simulated plane is $x$
-* the angle about $x$ is $\theta$ and follows the right-handed rule
+* the angle about $x$ is $\phi$ and follows the right-handed rule
 
 ### Dynamics model
 
-We want to expose a simulated body to $y$ and $z$ accelerations, and torques about $\theta$.
+We want to expose a simulated body to $y$ and $z$ accelerations, and torques about $\phi$.
 
 To do this an imaginary body was simulated in a mystery environment where:
 * $y$ and $z$ directions have constant damping
@@ -40,8 +40,8 @@ $$
     \ddot{y}^{stddev} &= 0.005 - 0.010 \times rand([1, 2]) \\
     \ddot{z}^{offset} &= 0.01 \times rand(\mathcal{N}(0, 0.01)) \\
     \ddot{z}^{stddev} &= 0.005 - 0.010 \times rand([1, 2]) \\
-    \ddot{\theta}^{offset} &= \frac{4\pi}{360} (1 - 2 \times rand([0,1])) \\
-    \ddot{\theta}^{stddev} &= \frac{\pi}{360} (1 - 2 \times rand([0,1]))
+    \ddot{\phi}^{offset} &= \frac{4\pi}{360} (1 - 2 \times rand([0,1])) \\
+    \ddot{\phi}^{stddev} &= \frac{\pi}{360} (1 - 2 \times rand([0,1]))
 \end{split}
 $$
 
@@ -51,7 +51,7 @@ $$
 \begin{split}
     \ddot{y}^{noise}_k &= rand(\mathcal{N}(0, \ddot{y}^{stddev})) \\
     \ddot{z}^{noise}_k &= rand(\mathcal{N}(0, \ddot{z}^{stddev}))  \\
-    \ddot{\theta}^{noise}_k &= rand(\mathcal{N}(0, \ddot{\theta}^{stddev})) 
+    \ddot{\phi}^{noise}_k &= rand(\mathcal{N}(0, \ddot{\phi}^{stddev})) 
 \end{split}
 $$
 
@@ -72,7 +72,7 @@ Three estimators were compared:
 A practical implementation of the complimentry trust estimator needs to handle angle wrap-around. The important parts are:
 * When finding the difference between two angles, a shortest radian path algorithm is used
   * This algorithm ensures that the magnitude of angles when computing a difference is never greater than pi
-* All estimates of $\theta$ are wrapped into the range $[-\pi, +\pi]$
+* All estimates of $\phi$ are wrapped into the range $[-\pi, +\pi]$
 
 #### Results - Single Simulation
 

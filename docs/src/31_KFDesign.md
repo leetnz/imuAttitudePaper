@@ -73,8 +73,8 @@ The state we care about is:
 
 $$
 \hat{x} = \begin{bmatrix}
-    \theta \\
-    \dot{\theta} \\
+    \phi \\
+    \dot{\phi} \\
 \end{bmatrix}
 $$
 
@@ -82,22 +82,22 @@ Firstly, for state prediction, we end up using the gyroscope measurements for th
 
 $$
 \begin{bmatrix}
-    \bar{\theta}_k \\
-    \bar{\dot{\theta}}_k \\
+    \bar{\phi}_k \\
+    \bar{\dot{\phi}}_k \\
 \end{bmatrix} = 
 \begin{bmatrix}
     1 & \frac{\Delta t_k}{2} \\
     0 & 0 \\
 \end{bmatrix}
 \begin{bmatrix}
-    \theta_{k-1} \\
-    \dot{\theta}_{k-1} \\
+    \phi_{k-1} \\
+    \dot{\phi}_{k-1} \\
 \end{bmatrix} + 
 \begin{bmatrix}
     \frac{\Delta t_k}{2} \\
     1 \\
 \end{bmatrix}
-    \dot{\theta}^{gyro}_{k}
+    \dot{\phi}^{gyro}_{k}
 $$
 
 This is equivalent to the gyroscope-only estimator presented in the introduction.
@@ -105,27 +105,27 @@ This is equivalent to the gyroscope-only estimator presented in the introduction
 Next, the observation is handled using accelerometer measurements:
 
 $$
-\bar{\theta}_{K}^{accel} = \tan^{-1}\left(\frac{\ddot{y}^{accel}_k}{\ddot{z}^{accel}_k}\right)
+\bar{\phi}_{K}^{accel} = \tan^{-1}\left(\frac{\ddot{y}^{accel}_k}{\ddot{z}^{accel}_k}\right)
 $$
 
 $$
 \begin{bmatrix}
-    \theta^z_k \\
-    \dot{\theta}^z_k \\
+    \phi^z_k \\
+    \dot{\phi}^z_k \\
 \end{bmatrix} = 
 \begin{bmatrix}
     1 & 0 \\
     0 & 0 \\
 \end{bmatrix}
 \begin{bmatrix}
-    \theta_{k}^{accel} \\
+    \phi_{k}^{accel} \\
     0
 \end{bmatrix} +
 \begin{bmatrix}
     0 \\
     1 \\
 \end{bmatrix}
-\dot{\theta}^{gyro}_{k}
+\dot{\phi}^{gyro}_{k}
 $$
 
 We will then need to tune matrices $Q$ and $R$ to compute reasonable Kalman gains for various measurements.

@@ -4,9 +4,9 @@ The final form of the estimator is:
 
 $$
 \begin{split}
-    \bar{\theta}^{gyro}_k &= \theta^{est}_{k-1} + \frac{\dot{\theta}^{gyro}_k + \dot{\theta}^{gyro}_{k-1}}{2}\Delta t_k \\
-    \bar{\theta}^{accel}_{k} &= \tan^{-1}\left(\frac{\ddot{y}^{accel}_K}{\ddot{z}^{accel}_K}\right) \\
-    \theta^{est}_{k} &=  \bar{\theta}^{gyro}_k  + f^{trust}(\hat{a}^{accel}_k) \times \left(\bar{\theta}^{accel}_k - \bar{\theta}^{gyro}_k\right)
+    \bar{\phi}^{gyro}_k &= \phi^{est}_{k-1} + \frac{\dot{\phi}^{gyro}_k + \dot{\phi}^{gyro}_{k-1}}{2}\Delta t_k \\
+    \bar{\phi}^{accel}_{k} &= \tan^{-1}\left(\frac{\ddot{y}^{accel}_K}{\ddot{z}^{accel}_K}\right) \\
+    \phi^{est}_{k} &=  \bar{\phi}^{gyro}_k  + f^{trust}(\hat{a}^{accel}_k) \times \left(\bar{\phi}^{accel}_k - \bar{\phi}^{gyro}_k\right)
 \end{split}
 $$
 

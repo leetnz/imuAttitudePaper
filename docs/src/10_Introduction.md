@@ -7,32 +7,32 @@ This paper outlines an attitude estimator using gyroscope and accelerometer meas
 A digital gyroscope-only estimator using trapezoidal integration on step $K$ is given by:
 
 $$
-\bar{\theta}_{K}^{gyro} = \theta_{0} + {\sum_{k=1}^K} \frac{\dot{\theta}_k + \dot{\theta}_{k-1}}{2}\Delta t_k
+\bar{\phi}_{K}^{gyro} = \phi_{0} + {\sum_{k=1}^K} \frac{\dot{\phi}_k + \dot{\phi}_{k-1}}{2}\Delta t_k
 $$
 
 Where:
 
-* $\theta_{0}$ is the initial angle
-* $\bar{\theta}_{K}^{gyro}$ is the $K^{th}$ estimated angle
-* $\dot{\theta}_k$ is the gyroscope measurement on the $k^{th}$ sample
+* $\phi_{0}$ is the initial angle
+* $\bar{\phi}_{K}^{gyro}$ is the $K^{th}$ estimated angle
+* $\dot{\phi}_k$ is the gyroscope measurement on the $k^{th}$ sample
 * $\Delta t_k$ is the change in time since the previous sample
 
 Integration causes the gyroscope estimator to drift due to:
 
-* Offets and misalignment in $\dot{\theta}$ measurements
+* Offets and misalignment in $\dot{\phi}$ measurements
 * Dynamics not measured between samples
 
 A digital accelerometer-only estimator using triginometry on step $K$ is given by:
 
 $$
-\bar{\theta}_{K}^{accel} = \tan^{-1}\left(\frac{\ddot{y}_K}{\ddot{z}_K}\right)
+\bar{\phi}_{K}^{accel} = \tan^{-1}\left(\frac{\ddot{y}_K}{\ddot{z}_K}\right)
 $$
 
 Where:
 
-* $\bar{\theta}_{K}^{accel}$ is the $K^{th}$ estimated angle
+* $\bar{\phi}_{K}^{accel}$ is the $K^{th}$ estimated angle
 * $\ddot{z}_K$ and $\ddot{y}_K$ are the $K^{th}$ acceleration measurements
-  * This assumes $\theta$ is the roll angle in the x-axis
+  * This assumes $\phi$ is the roll angle in the x-axis
 
 The accelerometer estimator assumes the accelerometer is only measuring gravity; typically, this only holds when the measured object is stationary.
 

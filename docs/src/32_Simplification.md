@@ -3,7 +3,7 @@
 There are two aspects of the Kalman filter in it's default form which aren't particularly useful for our estimator:
 
 * The covariance matrix
-* Including $\dot{\theta}$ in our observations
+* Including $\dot{\phi}$ in our observations
 
 
 #### Simplification 1: Covariance Matrix
@@ -13,15 +13,15 @@ The covariance matrix $\Sigma$ doesn't help us much. The problems are:
 * If we have a bad accelerometer reading - we can't use it, so tracking covariance isn't ideal
 * After a period of bad accelerometer readings, we don't want our covariance to blow up to a point where the next "valid" accelerometer reading is trusted in it's entirety. This is because it is possible to get invalid accelerometer readings which look valid, so they need to be filtered adequately.
 
-#### Simplification 2: We only care about $\theta$
+#### Simplification 2: We only care about $\phi$
 
-The observation step doesn't pay attention to $\dot{\theta}$.
+The observation step doesn't pay attention to $\dot{\phi}$.
 
 #### Simplification 3: Replacing the Kalman gain with a trust function
 
 The two simplifications above have a direct implication on computing the Kalman gain.
 
-If we allow $Q$ to equal, (note, we don't estimate noise on $\dot{\theta}$ since it is not involved in observations):
+If we allow $Q$ to equal, (note, we don't estimate noise on $\dot{\phi}$ since it is not involved in observations):
 
 $$
 \begin{bmatrix}
@@ -102,31 +102,31 @@ $$
 \hat{\mu}_{k} &= \bar{\hat{\mu}}_{k} + K_{k}(z_k - C\bar{\hat{\mu}}_{k}) \\
               &= 
     \begin{bmatrix}
-        \bar{\theta}_k \\
-        \dot{\theta}^{gyro}_k \\
+        \bar{\phi}_k \\
+        \dot{\phi}^{gyro}_k \\
     \end{bmatrix} +
     \begin{bmatrix}
         f^{trust}(\hat{a}^{accel}_k) & 0 \\
         0 & 0\\
     \end{bmatrix} \left(
         \begin{bmatrix}
-            \theta^z_k \\
-            \dot{\theta}^{gyro}_k \\
+            \phi^z_k \\
+            \dot{\phi}^{gyro}_k \\
         \end{bmatrix} - 
         \begin{bmatrix}
-            \bar{\theta_k} \\
-            \dot{\theta}^{gyro}_k \\
+            \bar{\phi_k} \\
+            \dot{\phi}^{gyro}_k \\
         \end{bmatrix}
     \right) \\
         &= 
     \begin{bmatrix}
-        \bar{\theta}_k  + f^{trust}(\hat{a}^{accel}_k) \times \left(\theta^z_k - \bar{\theta}_k\right) \\
-        \dot{\theta}^{gyro}_k \\
+        \bar{\phi}_k  + f^{trust}(\hat{a}^{accel}_k) \times \left(\phi^z_k - \bar{\phi}_k\right) \\
+        \dot{\phi}^{gyro}_k \\
     \end{bmatrix} \\
         &= 
     \begin{bmatrix}
-        \bar{\theta}^{gyro}_k  + f^{trust}(\hat{a}^{accel}_k) \times \left(\bar{\theta}^{accel}_k - \bar{\theta}^{gyro}_k\right) \\
-        \dot{\theta}^{gyro}_k \\
+        \bar{\phi}^{gyro}_k  + f^{trust}(\hat{a}^{accel}_k) \times \left(\bar{\phi}^{accel}_k - \bar{\phi}^{gyro}_k\right) \\
+        \dot{\phi}^{gyro}_k \\
     \end{bmatrix}
 \end{split}
 $$

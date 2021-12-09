@@ -9,8 +9,8 @@ $$
         \ddot{y} \\
         \dot{z} \\
         \ddot{z} \\
-        \dot{\theta} \\
-        \ddot{\theta} \\
+        \dot{\phi} \\
+        \ddot{\phi} \\
     \end{bmatrix}
 } = \underset{A}{
     \begin{bmatrix}
@@ -19,7 +19,7 @@ $$
         0 & 0    & 0 & 1    & 0 & 0 \\
         0 & 0    & 0 & -d_z & 0 & 0 \\
         0 & 0    & 0 & 0    & 0 & 1 \\
-        0 & 0    & 0 & 0    & 0 & -d_{\theta}
+        0 & 0    & 0 & 0    & 0 & -d_{\phi}
     \end{bmatrix}}
 \underset{X}{
     \begin{bmatrix}
@@ -27,8 +27,8 @@ $$
         \dot{y} \\
         z \\
         \dot{z} \\
-        \theta \\
-        \dot{\theta} \\
+        \phi \\
+        \dot{\phi} \\
     \end{bmatrix}}
 + \underset{B}{
     \begin{bmatrix}
@@ -43,7 +43,7 @@ $$
     \begin{bmatrix}
         F_y \\
         F_z \\
-        \tau_{\theta}
+        \tau_{\phi}
     \end{bmatrix}}
 $$
 
@@ -51,13 +51,13 @@ Where:
 
 * $X$ is the system state
 * $y$ and $z$ are the translational dimensions making up the y-z plane
-* $\theta$ is the angle about the $x$ axis perpendicular to the y-z plane
+* $\phi$ is the angle about the $x$ axis perpendicular to the y-z plane
 * $d_y$ and $d_z$ are translational damping in $y$ and $z$ respectively
-* $d_\theta$ is angular damping
-* $M$ and $I$ are the point mass and inertia about $\theta$ of our object
+* $d_\phi$ is angular damping
+* $M$ and $I$ are the point mass and inertia about $\phi$ of our object
 * $U$ are our system inputs:
   * $F_y$ and $F_z$ are forces in $y$ and $z$ respectively
-  * $\tau_{\theta}$ is the torque applied to the $x$ axis
+  * $\tau_{\phi}$ is the torque applied to the $x$ axis
 
 ### IMU equations
 
@@ -75,7 +75,7 @@ $$
     \end{bmatrix}
 $$
 
-* $F^s$ the sensor frame, which is equal to $F^i$ when $\theta = 0$
+* $F^s$ the sensor frame, which is equal to $F^i$ when $\phi = 0$
 
 The transformation between the two frames is:
 
@@ -85,8 +85,8 @@ $$
         z^s \\
     \end{bmatrix} = 
     \begin{bmatrix}
-        \cos(\theta) & \sin(\theta) \\
-        -\sin(\theta) & \cos(\theta) \\
+        \cos(\phi) & \sin(\phi) \\
+        -\sin(\phi) & \cos(\phi) \\
     \end{bmatrix}
     \begin{bmatrix}
         y^i \\
@@ -104,8 +104,8 @@ $$
     \ddot{z}^{accel}_k \\
 \end{bmatrix} = 
 \begin{bmatrix}
-    \cos(\theta) & \sin(\theta) \\
-    -\sin(\theta) & \cos(\theta) \\
+    \cos(\phi) & \sin(\phi) \\
+    -\sin(\phi) & \cos(\phi) \\
 \end{bmatrix}
 \begin{bmatrix}
     \ddot{y}^i_k \\
@@ -131,5 +131,5 @@ Where:
 Rate measurements are independent of orientation so we only add noise and offset:
 
 $$
-\dot{\theta}^{gyro}_k = \dot{\theta}_k + \dot{\theta}^{noise}_k + \dot{\theta}^{offset}
+\dot{\phi}^{gyro}_k = \dot{\phi}_k + \dot{\phi}^{noise}_k + \dot{\phi}^{offset}
 $$
