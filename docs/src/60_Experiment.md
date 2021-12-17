@@ -84,9 +84,24 @@ Both the serial data and video outputs are at 25Hz.
 
 ### Results
 
-The following video shows Bittle doing TODO: with the attitude estimate overlayed.
+The following shows bittle being moved in the roll direction with the roll estimate overlayed.
 
-* TODO: Show video / frames of resulting experiment
+![Bench Testing Estimator on Bittle - Side to Side](src/images/60_estimatorBench.gif)
 
+![Bench Testing Estimator on Bittle - Flip](src/images/60_estimatorFlip.gif)
 
-No effort has been made to meaningfully quantify this output; except that it "looks right".
+The next figure shows bittle walking on uneven carpet causing bittle to fall over - which is quite helpful for demonstrating a real-world application of requiring responsive dynamic estimation.
+
+![Bench Testing Estimator on Bittle - Flip](src/images/60_estimatorWalk.gif)
+
+#### Issues with Gimbal lock
+
+In the above demonstrations, when bittle is rolled more than 90 degrees, the accelerometer-based pitch estimate reaches a discontinuity, where it goes from 0 degrees to 180 degrees. 
+
+This is a weakness of the representation of state in this estimator. Using Euler angles will always result in gimbal-lock derived discontinuities - in this case, pitch aligning with yaw. A quaternion representation of attitude would resolve this issue, but is beyond the scope of this paper.
+
+This estimator is still useful for the following scenarios:
+* We only require estimation in one axis
+* The body is not expected to exceed $[-90\deg, 90\deg]$ in any axis under normal operation
+
+Bittle meets the second requirement, where we assume if it has reached or exceeded 90 degrees, it has fallen over.
