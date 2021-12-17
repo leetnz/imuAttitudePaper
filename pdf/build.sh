@@ -14,5 +14,6 @@ pandoc -o imuPaper.pdf \
     ../docs/src/33_TrustFunction.md \
     ../docs/src/34_ComplimentryTrustEstimator.md \
     ../docs/src/50_Simulation.md \
+    ../docs/src/60_Experiment.md \
     ../docs/src/99_References.md \
     --pdf-engine-opt=-shell-escape --include-in-header=gif2png.tex

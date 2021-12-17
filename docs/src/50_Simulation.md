@@ -63,6 +63,7 @@ The plot below shows IMU simulated accelerometer data across a number of monte-c
 ### Estimator
 
 Three estimators were compared:
+
 * Accelerometer only estimator
 * Gyro only estimator
 * Complimentry trust estimator
@@ -70,6 +71,7 @@ Three estimators were compared:
 #### Handling angular wrap-around
 
 A practical implementation of the complimentry trust estimator needs to handle angle wrap-around. The important parts are:
+
 * When finding the difference between two angles, a shortest radian path algorithm is used
   * This algorithm ensures that the magnitude of angles when computing a difference is never greater than pi
 * All estimates of $\phi$ are wrapped into the range $[-\pi, +\pi]$
@@ -81,6 +83,7 @@ A single run of the simulated system is shown below.
 ![Estimator comparison single simulation](src/images/50_estimatorsSingle.png)
 
 The following observations are important:
+
 * The accelerometer-only estimator becomes poor when there are dynamics in the system
 * The gyroscope estimator drifts and becomes less accurate the longer the simulation runs
 * The complimentry trust estimator:
