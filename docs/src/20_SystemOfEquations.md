@@ -1,6 +1,6 @@
 ## System of equations
 
-Here we present an imaginary - but useful - system for testing an attitude estimator which operates in a 2-D plane.
+Here we present an imaginary - but useful - system for simulating an attitude estimator which operates in a 2-D plane.
 
 $$
 \underset{\dot{X}}{
@@ -62,6 +62,7 @@ Where:
 ### IMU equations
 
 We specify two frames:
+
 * $F^i$ the inertial frame, where:
 
 $$

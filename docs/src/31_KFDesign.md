@@ -67,7 +67,7 @@ $$
 
 #### Estimator's system of equations
 
-We would like a generic estimator which only uses IMU meaasurements - this means we have no information about forces or torques being applied to the system.
+We would like a generic estimator which only uses IMU measurements - this means we have no information about forces or torques being applied to the system.
 
 The state we care about is:
 
