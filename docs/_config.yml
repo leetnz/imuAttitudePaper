@@ -1,6 +1,6 @@
 theme: jekyll-theme-slate
 
-title: "IMU Attitude Estimation"
+title: "IMU Sensor Fusion Estimator"
 description: "Attitude estimation using gyroscope and accelerometer inputs"
 
 show_downloads: true

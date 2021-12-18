@@ -14,3 +14,21 @@
     height: 70px;
     background: url('../images/icon_download.png') no-repeat 0% 90%;
 }
+
+#logo {
+    width: 240px;
+    bottom: 0px;
+    right: 0;
+    float: right;
+    border:0;
+    box-shadow: none;
+    // background: url('../images/logo.png') no-repeat 0% 90%;
+}
+
+#project_title { 
+    font-size: 48px; 
+    line-height: 42px;
+    padding-top: 12px;
+    padding-bottom: 48px;
+}
+

@@ -133,8 +133,6 @@ $$
 
 In this form, the trust function simply outputs a value in range $[0, 1]$ which determines how much we trust our observations. When it is $0$ we only trust the system equations (gyroscope estimator), when it is $1$ we only trust the observations (accelerometer).
 
-This is also known as a complimentary filter with a dynamic gain. The gyroscopic measurements represent the high-pass elements (because they include feedback), and the accelerometer measurements represent the low-pass elements.
+This is also known as a complimentary filter with the exception that the gain is not constant. The gyroscopic measurements represent the high-pass elements (because they include feedback), and the accelerometer measurements represent the low-pass elements.
 
-
-
-
+A paper [Quadrotor attitude determination: A comparison study](https://www.researchgate.net/publication/309332785_Quadrotor_attitude_determination_A_comparison_study) demonstrates similar performance between a Kalman filter and a complimentry filter. This isn't too surprising when considering that the reduction in meaning between the two filters effectively results in the same estimator.

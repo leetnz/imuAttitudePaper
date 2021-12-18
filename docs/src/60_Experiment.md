@@ -92,7 +92,9 @@ The following shows bittle being moved in the roll direction with the roll estim
 
 The next figure shows bittle walking on uneven carpet causing bittle to fall over - which is quite helpful for demonstrating a real-world application of requiring responsive dynamic estimation.
 
-![Bench Testing Estimator on Bittle - Flip](src/images/60_estimatorWalk.gif)
+![Testing Estimator on Bittle - Walk](src/images/60_estimatorWalk.gif)
+
+The video [https://youtu.be/kj7YloDtiZY](https://youtu.be/kj7YloDtiZY) demonstrates this estimator operating alongside video at 25 FPS.
 
 #### Issues with Gimbal lock
 
@@ -101,7 +103,8 @@ In the above demonstrations, when bittle is rolled more than 90 degrees, the acc
 This is a weakness of the representation of state in this estimator. Using Euler angles will always result in gimbal-lock derived discontinuities - in this case, pitch aligning with yaw. A quaternion representation of attitude would resolve this issue, but is beyond the scope of this paper.
 
 This estimator is still useful for the following scenarios:
+
 * We only require estimation in one axis
-* The body is not expected to exceed $[-90\deg, 90\deg]$ in any axis under normal operation
+* The body is not expected to exceed $[-90^\circ, 90^\circ]$ in any axis under normal operation
 
 Bittle meets the second requirement, where we assume if it has reached or exceeded 90 degrees, it has fallen over.
