@@ -4,7 +4,7 @@ The complimentry trust estimator presented in this whitepaper is useful for:
 
 * Single axis attitude estimation
 * Multi-axis attitude estimation where gimbal lock can be tolerated
-* Systems which have limited computational resources
+* Systems with limited computational resources
 
 The estimator requires gyroscopic and accelerometer measurements; these measurements are fused with the following algorithm:
 
@@ -16,14 +16,27 @@ $$
 \end{split}
 $$
 
-When tuning the trust function $f^{trust}(\hat{a}_k)$:
+Where we are estimating the roll $\phi$ which is the angle about the x axis.
 
-* $F^{max}$ will affect the corner frequency of the low-pass/high-pass complimentry filter
+A computationally cheap trust function $f^{trust}(\hat{a}_k)$ is defined:
+
+$$
+\begin{split}
+u_k &= (\ddot{x}^{accel}_k)^2 +
+    (\ddot{y}^{accel}_k)^2 +
+    (\ddot{z}^{accel}_k)^2 \\
+f^{trust}(\hat{a}^{accel}_k) &= F^{max} \max\left(0,
+1 - \frac{1}{2 K^{tol}}\left( \frac{u_k}{g} - 1 \right)\right)
+\end{split}
+$$
+
+Where:
+
+* $g$ is the gravity constant $9.81m.s^{-1}$
+* $F^{max}$ affects the corner frequency of the low-pass/high-pass complimentry filter
   * Make $F^{max}$ small to integrate gyro measurements into the estimator
-* $K^{tol}$ represents the deviation from 1g we accept when including accelerometer estimates
-  * Base $K^{tol}$ on the confidence we have in our accelerometer calibration
-  * Suggested values are:
-    * 0.05 for well calibrated, low noise accelerometers
-    * 0.20 for poorly calibrated, noisy accelerometers
+* $K^{tol}$ represents the deviation from 1g we accept when including accelerometer estimates. Suggested values are:
+  * 0.05 for well calibrated, low noise accelerometers
+  * 0.20 for poorly calibrated, noisy accelerometers
 
 
