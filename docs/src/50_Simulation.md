@@ -3,19 +3,19 @@
 The code in this simulation is written in Matlab and can be downloaded from [github.com/leetware/IMUAttitudeSimulation](https://github.com/leetnz/IMUAttitudeSimulation).
 
 The simulation operates in a 2D plane where:
+
 * the plane axes are $y$ and $z$
 * the axis orthogonal to the simulated plane is $x$
 * the angle about $x$ is $\phi$ and follows the right-handed rule
 
 ### Dynamics model
 
-We want to expose a simulated body to $y$ and $z$ accelerations, and torques about $\phi$.
+We want to expose a simulated body to $y$ and $z$ accelerations, and torques about $\phi$. An imaginary body is simulated in a mystery environment where:
 
-To do this an imaginary body was simulated in a mystery environment where:
 * $y$ and $z$ directions have constant damping
-* $theta$ has constant damping
+* $\phi$ has constant damping
 * gravity is detected by the imu, but never acts on the body
-  * simulating surfaces was not necessary for this simulation
+  * this was to avoid unnecessary simulation of surfaces
 
 The governing state-space equations were presented in the **System of equations** section.
 
@@ -26,13 +26,14 @@ A simulation using sinusoidal forces and torques for a portion of the simulation
 ### IMU model
 
 The IMU model has three sensors to simulate:
+
 * Accelerometer Y
 * Accelerometer Z
 * Gyroscope X
 
-Note: in this simulation, the accelerometer measures in $g$ where $1g = 9.81 \frac{m}{s}$. This is typical of many IMUs.
+Note: in this simulation, the accelerometer measures in units of $g$ where $1g = 9.81 m.s^{-1}$. This is typical of many IMUs.
 
-Noise and offset are selected using a random function. This improves tuning since I don't want to assume I know the exact offsets/noise profile of the IMU I am using.
+Noise and offset are selected using a random function. This improves tuning since we make no assumptions about the noise or offset profile of the sensor our estimator will use.
 
 $$
 \begin{split}
@@ -45,7 +46,9 @@ $$
 \end{split}
 $$
 
-The IMU equations in the *System of equations* section shows how simulation accelerations and rates are transformed into IMU measurements. The only missing conversion is that noise is computed on each step as follows:
+The IMU equations in the **System of equations** section already provides the frame transformations from interial to sensor frame. 
+
+Finally, noise is computed on each step as follows:
 
 $$
 \begin{split}
@@ -56,13 +59,15 @@ $$
 $$
 
 
-The plot below shows IMU simulated accelerometer data across a number of monte-carlo simulations. The estimator is judged and improved based on its statistical performance against hundreds of monte-carlo simulations.
+The plot below shows IMU simulated accelerometer data across a number of Monte Carlo simulations.
 
 ![IMU accelerometer with offset and noise](src/images/50_monteCarloIMUAccY.gif)
 
-### Estimator
+Estimator performance is judged and tuned based on its statistical performance against hundreds of Monte Carlo simulations.
 
-Three estimators were compared:
+### Estimator Performance
+
+Three estimators are compared:
 
 * Accelerometer only estimator
 * Gyro only estimator
@@ -82,13 +87,11 @@ A single run of the simulated system is shown below.
 
 ![Estimator comparison single simulation](src/images/50_estimatorsSingle.png)
 
-The following observations are important:
-
-* The accelerometer-only estimator becomes poor when there are dynamics in the system
-* The gyroscope estimator drifts and becomes less accurate the longer the simulation runs
+* The accelerometer-only estimates are poor when subjected to dynamics.
+* The gyroscope estimates degrade the longer the simulation runs.
 * The complimentry trust estimator:
-  * rejects the accelerometer estimates once the dynamics become too large
-  * corrects for gyroscope drift once the accelerometer estimates are trusted again
+  * rejects accelerometer estimates during dynamic periods.
+  * corrects for gyroscope drift once the accelerometer estimates are trustworthy.
 
 #### Results - Monte Carlo
 
