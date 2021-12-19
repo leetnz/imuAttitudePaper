@@ -22,11 +22,9 @@ A computationally cheap trust function $f^{trust}(\hat{a}_k)$ is defined:
 
 $$
 \begin{split}
-u_k &= (\ddot{x}^{accel}_k)^2 +
-    (\ddot{y}^{accel}_k)^2 +
-    (\ddot{z}^{accel}_k)^2 \\
+\left \| \hat{a}^{accel}_k \right \|^2 &= (\ddot{x}^{accel}_k)^2 + (\ddot{y}^{accel}_k)^2 + (\ddot{z}^{accel}_k)^2 \\
 f^{trust}(\hat{a}^{accel}_k) &= F^{max} \max\left(0,
-1 - \frac{1}{2 K^{tol}}\left( \frac{u_k}{g} - 1 \right)\right)
+1 - \frac{1}{2 K^{tol}}\left( \frac{\left \| \hat{a}^{accel}_k \right \|^2}{g} - 1 \right)\right)
 \end{split}
 $$
 

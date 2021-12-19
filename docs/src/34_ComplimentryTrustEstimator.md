@@ -10,15 +10,12 @@ $$
 \end{split}
 $$
 
-Where the only tunable component is the trust function $f^{trust}(\hat{a}_k)$.
+Where the only tunable component is the trust function $f^{trust}(\hat{a}_k)$. When tuning the trust function:
 
-When tuning the trust function:
-
-* $F^{max}$ will affect the corner frequency of the low-pass/high-pass complimentry filter
-  * Make $F^{max}$ small to integrate gyro measurements into the estimator
-* $K^{tol}$ represents the deviation from 1g we accept when including accelerometer estimates
-  * Base $K^{tol}$ on the confidence we have in our accelerometer calibration
-  * Suggested values are:
+* $F^{max}$ affects the corner frequency of the low-pass/high-pass complimentry filter.
+  * Make $F^{max}$ small to integrate gyro measurements into the estimator.
+* $K^{tol}$ represents the deviation from 1g we accept when including accelerometer estimates.
+  * Base $K^{tol}$ on the confidence we have in our accelerometer calibration. SSuggested values are:
     * 0.05 for well calibrated, low noise accelerometers
     * 0.20 for poorly calibrated, noisy accelerometers
 
